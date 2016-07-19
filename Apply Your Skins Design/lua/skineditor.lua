@@ -14,11 +14,6 @@ function SkinEditor:apply_changes(cosmetics_data)
 	if self:second_weapon_unit() then
 		_weapon_id = self:second_weapon_unit():base()._factory_id
 	end
-	for k, v in pairs(cosmetics_data or {}) do
-		if not v then
-			v = {}
-		end
-	end
 	SkinEditor_Patch.Skins_Data[_weapon_id] = {
 		cosmetics = cosmetics_data			
 	}

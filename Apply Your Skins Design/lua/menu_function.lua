@@ -17,7 +17,9 @@ end
 function SkinEditor_Patch:Save()
 	local file = io.open(self.SaveFile, "w+")
 	if file then
-		file:write(json.encode(self.Skins_Data))
+		local _data = tostring(json.encode(self.Skins_Data))
+		_data = _data:gsub('%b[]', '{}')
+		file:write(_data)
 		file:close()
 	end
 end
