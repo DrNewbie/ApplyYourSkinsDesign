@@ -1,0 +1,11 @@
+{
+	"SkinEditor_Patch_menu_title" : "Apply Skins Design",
+	"SkinEditor_Patch_menu_desc" : "",
+	"SkinEditor_Patch_menu_change_settings_title" : "Choose Skins",
+	"SkinEditor_Patch_menu_change_settings_desc" : "",
+	"SkinEditor_Patch_menu_change_settings_main_text" : "Select what you want",
+	"SkinEditor_Patch_use4ok" : "[OK]",
+	"SkinEditor_Patch_use4cancel" : "[CANCEL]",
+	"SkinEditor_Patch_use4preview" : "[PREVIEW]",
+	"SkinEditor_Patch_use4acceptthisskins" : "[USE THIS SKINS]",
+}
