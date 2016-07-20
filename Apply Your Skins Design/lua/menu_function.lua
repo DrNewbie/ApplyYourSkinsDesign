@@ -227,13 +227,11 @@ function SkinEditor_Patch:Table2Save(original)
 								if tostring(v4):find("Vector3") then
 									original[k1][k2][k3][k4] = tostring(v4)
 								end
-								log("k4: " .. tostring(k4) .. " ; " .. tostring(v4))
 								if type(v4) == "table" then
 									for k5, v5 in pairs(v4) do
 										if tostring(v5):find("Vector3") then
 											original[k1][k2][k3][k4][k5] = tostring(v5)
 										end
-										log("k5: " .. tostring(k5) .. " ; " .. tostring(v5))
 									end
 								end
 							end
