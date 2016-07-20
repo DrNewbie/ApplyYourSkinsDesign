@@ -15,6 +15,7 @@ function SkinEditor_Patch:Load()
 		local files = io.open("workshop/".. name .. "/SkinEditorPatch.txt", "r")
 		if files then
 			local _date = files:read("*all")
+			_date = _date:gsub('%b[]', '{}')
 			local _sha1 = self:sha1(tostring(_date))
 			original = json.decode(_date)
 			local _weapon_id = original.weapon_id
@@ -88,8 +89,10 @@ end)
 function SkinEditor_Patch:choose_skins_to_accept(data)
 	self.settings[self.Skins_Data[data.sha1].weapon_id] = data.sha1
 	self:Save_Settings()
-	SkinEditor_Patch:Apply_Skins(managers.player:player_unit():inventory():unit_by_selection(1))
-	SkinEditor_Patch:Apply_Skins(managers.player:player_unit():inventory():unit_by_selection(2))
+	if managers.player and managers.player:player_unit() then
+		SkinEditor_Patch:Apply_Skins(managers.player:player_unit():inventory():unit_by_selection(1))
+		SkinEditor_Patch:Apply_Skins(managers.player:player_unit():inventory():unit_by_selection(2))
+	end
 	local _dialog_data = {
 		title = managers.localization:text("SkinEditor_Patch_menu_title"),
 		text = "[ ".. self.Skins_Data[data.sha1].weapon_id .." ---> ".. self.Skins_Data_Name[data.sha1] .." ]",
@@ -237,6 +240,8 @@ function SkinEditor_Patch:Table2Save(original)
 	end
 	return original
 end
+
+local _boo_loaded = false
 
 function SkinEditor_Patch:Apply_Skins(weapon_unit)
 	if SkinEditor_Patch and weapon_unit and alive(weapon_unit) and weapon_unit:base() then
