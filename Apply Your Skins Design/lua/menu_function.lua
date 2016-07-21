@@ -129,7 +129,7 @@ end
 function SkinEditor_Patch:choose_skins_after_type(data)
 	local opts = {}
 	for k, _sha1 in pairs (self.Skins_Data_List[data.weapon_id] or {}) do
-		opts[#opts+1] = { text = "[ ".. self.Skins_Data[_sha1].name_id .." ]", callback_func = callback(SkinEditor_Patch, SkinEditor_Patch, "choose_skins_after_skins", {sha1 = _sha1}) }
+		opts[#opts+1] = { text = "[ ".. self.Skins_Data_Name[_sha1] .." ]", callback_func = callback(SkinEditor_Patch, SkinEditor_Patch, "choose_skins_after_skins", {sha1 = _sha1}) }
 	end
 	opts[#opts+1] = { text = managers.localization:text("SkinEditor_Patch_use4cancel"), is_cancel_button = true }
 	local _dialog_data = {
