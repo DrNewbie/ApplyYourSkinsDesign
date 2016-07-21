@@ -59,22 +59,25 @@ function SkinEditor_Patch:Reset_Settings()
 end
 
 function SkinEditor_Patch:Load_Settings()
-	local file = io.open(self.SaveFile, "r")
-	if file then
-		for key, value in pairs(json.decode(file:read("*all"))) do
+	local files = io.open(self.SaveFile, "r")
+	if files then
+		local _date = files:read("*all")
+		_date = _date:gsub('%b[]', '{}')
+		local _date2 = json.decode(_date)
+		for key, value in pairs(_date2) do
 			self.settings[key] = value
 		end
-		file:close()
+		files:close()
 	else
 		self:Reset_Settings()
 	end
 end
 
 function SkinEditor_Patch:Save_Settings()
-	local file = io.open(self.SaveFile, "w+")
-	if file then
-		file:write(json.encode(self.settings))
-		file:close()
+	local files = io.open(self.SaveFile, "w+")
+	if files then
+		files:write(json.encode(self.settings))
+		files:close()
 	end
 end
 
