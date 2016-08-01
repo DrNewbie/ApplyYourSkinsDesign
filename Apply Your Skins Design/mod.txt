@@ -1,11 +1,12 @@
 {
 	"name" : "Apply Your Skins Design",
 	"author" : "Dr_Newbie",
-	"version" : "WIP.4.5",
+	"version" : "WIP.5",
 	"hooks" : [
 		{ "hook_id" : "lib/managers/localizationmanager", "script_path" : "lua/sha1.lua" },
 		{ "hook_id" : "lib/managers/localizationmanager", "script_path" : "lua/menu_function.lua" },
 		{ "hook_id" : "lib/managers/workshop/skineditor", "script_path" : "lua/skineditor.lua" },
-		{ "hook_id" : "lib/units/beings/player/playerinventory", "script_path" : "lua/playerinventory.lua" }
+		{ "hook_id" : "lib/units/beings/player/playerinventory", "script_path" : "lua/playerinventory.lua" },
+		{ "hook_id" : "lib/managers/menu/menuscenemanager", "script_path" : "lua/menuscenemanager.lua" }
 	]
 }
