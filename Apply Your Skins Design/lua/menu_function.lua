@@ -4,7 +4,6 @@ SkinEditor_Patch.ModPath = ModPath
 SkinEditor_Patch.SaveFile = SkinEditor_Patch.SaveFile or SavePath .. "SkinEditor_Patch.txt"
 SkinEditor_Patch.ModOptions = SkinEditor_Patch.ModPath .. "menus/modoptions.txt"
 SkinEditor_Patch.settings = SkinEditor_Patch.settings or {}
-SkinEditor_Patch.options_menu = "SkinEditor_Patch_menu"
 
 function SkinEditor_Patch:Load()
 	self.Skins_Data = {}
@@ -85,10 +84,6 @@ Hooks:Add("LocalizationManagerPostInit", "SkinEditor_Patch_loc", function(loc)
 	LocalizationManager:load_localization_file("mods/Apply Your Skins Design/loc/localization.txt")
 end)
 
-Hooks:Add("MenuManagerSetupCustomMenus", "SkinEditor_PatchOptions", function( menu_manager, nodes )
-	MenuHelper:NewMenu( SkinEditor_Patch.options_menu )
-end)
-
 function SkinEditor_Patch:choose_skins_to_accept(data)
 	self.settings[self.Skins_Data[data.sha1].weapon_id] = data.sha1
 	self:Save_Settings()
@@ -141,7 +136,7 @@ function SkinEditor_Patch:choose_skins_after_type(data)
 	managers.system_menu:show(_dialog_data)
 end
 
-Hooks:Add("MenuManagerPopulateCustomMenus", "SkinEditor_PatchOptions", function( menu_manager, nodes )
+Hooks:Add("MenuManagerInitialize", "MenuManagerInitialize_SkinEditor_Patch", function(menu_manager)
 	MenuCallbackHandler.SkinEditor_Patch_Change_Skins_callback = function(self, item)
 		SkinEditor_Patch:Load()
 		local opts = {}
@@ -156,18 +151,8 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "SkinEditor_PatchOptions", function(
 			id = tostring(math.random(0,0xFFFFFFFF))
 		}
 		managers.system_menu:show(_dialog_data)
-	end
-	MenuHelper:AddButton({
-		id = "SkinEditor_Patch_Change_Skins_callback",
-		title = "SkinEditor_Patch_menu_change_settings_title",
-		desc = "SkinEditor_Patch_menu_change_settings_desc",
-		callback = "SkinEditor_Patch_Change_Skins_callback",
-		menu_id = SkinEditor_Patch.options_menu
-	})
-end)
-Hooks:Add("MenuManagerBuildCustomMenus", "SkinEditor_PatchOptions", function(menu_manager, nodes)
-	nodes[SkinEditor_Patch.options_menu] = MenuHelper:BuildMenu( SkinEditor_Patch.options_menu )
-	MenuHelper:AddMenuItem( MenuHelper.menus.lua_mod_options_menu, SkinEditor_Patch.options_menu, "SkinEditor_Patch_menu_title", "SkinEditor_Patch_menu_desc")
+	end	
+	MenuHelper:LoadFromJsonFile(SkinEditor_Patch.ModPath .. "menu/options.txt", SkinEditor_Patch, SkinEditor_Patch.settings)
 end)
 
 function SkinEditor_Patch:Table2Load(original)
