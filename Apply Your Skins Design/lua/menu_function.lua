@@ -15,6 +15,7 @@ function SkinEditor_Patch:Load()
 		if files then
 			local _date = files:read("*all")
 			_date = _date:gsub('%b[]', '{}')
+			_date = _date:gsub('\\/', '/')
 			local _sha1 = self:sha1(tostring(_date))
 			original = json.decode(_date)
 			local _weapon_id = original.weapon_id
@@ -26,11 +27,25 @@ function SkinEditor_Patch:Load()
 			local _load_texture_path = Application:base_path() .. "workshop/" .. name
 			local _texture_list = managers.blackmarket:skin_editor():get_texture_list(nil, _load_texture_path)
 			local new_textures = {}
+			local crate_entry = function(t_path)
+				local _texture_path_lower = Idstring(string.lower(t_path))
+				DB:create_entry(Idstring("texture"), _texture_path_lower, t_path)				
+				return _texture_path_lower
+			end
 			for _, texture_name in ipairs(_texture_list or {}) do
-				local _texture_path = "workshop/" .. name .. "/" .. texture_name
-				local _texture_path_lower = Idstring(string.lower(_texture_path))
-				DB:create_entry(Idstring("texture"), _texture_path_lower, _texture_path)
-				table.insert(new_textures, _texture_path_lower)
+				table.insert(new_textures, crate_entry("workshop/" .. name .. "/" .. texture_name))
+			end
+			for _, fo_name in pairs(file.GetDirectories("workshop/".. name .. "/") or {}) do
+				for _, tg_name in pairs(file.GetFiles("workshop/".. name .. "/" .. fo_name) or {}) do
+					if tostring(tg_name):find('tga') then
+						table.insert(new_textures, crate_entry("workshop/".. name .. "/" .. fo_name .. "/" .. tg_name))
+					end
+				end
+			end
+			for _, tg_name in pairs(file.GetFiles("workshop/".. name) or {}) do
+				if tostring(tg_name):find('tga') then
+					table.insert(new_textures, crate_entry("workshop/".. name .. "/" .. tg_name))
+				end
 			end
 			if not table.empty(new_textures) then
 				Application:reload_textures(new_textures)

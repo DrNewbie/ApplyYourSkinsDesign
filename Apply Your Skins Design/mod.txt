@@ -3,7 +3,7 @@
 	"description": "Apply Your Skins Design",
 	"author" : "Dr_Newbie",
 	"contact": "http://modwork.shop/16911",
-	"version" : "7",
+	"version" : "8",
 	"image": "Dr_Newbie.png",
 	"color": "0 0 0",
 	"blt_version": 2,

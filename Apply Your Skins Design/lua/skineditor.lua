@@ -1,5 +1,3 @@
-SkinEditor = SkinEditor or class()
-
 _G.SkinEditor_Patch = _G.SkinEditor_Patch or {}
 
 SkinEditor_Patch.Skins_Data = SkinEditor_Patch.Skins_Data or {}
